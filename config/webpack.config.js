@@ -18,8 +18,7 @@
 const fs        = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-let _jsFile   = path.join(__dirname, '..','src', 'NodeObserver.js' ); 
-//let _indexFile   = path.join(__dirname, '..','src', 'index.js' ); 
+let _jsFile   = path.join( __dirname, '..','src', 'NodeObserver.js' ); 
 
 
 var initializeTmpDir = ( dir )=>{
@@ -33,8 +32,7 @@ initializeTmpDir( 'dist' );
 module.exports = () => {
 
   return new Promise((resolve, reject) => {
-      var res = {
-    
+      var res = { 
         entry: {
           ai_node_observer: [ _jsFile ] //, _indexFile 
         },
@@ -44,7 +42,8 @@ module.exports = () => {
         },
         optimization: {
           // We no not want to minimize our code.
-          minimize: false//,
+          minimize: false,
+          runtimeChunk: true
         },
         plugins: [
         ],

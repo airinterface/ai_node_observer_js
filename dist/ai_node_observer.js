@@ -187,9 +187,11 @@ module.exports = __webpack_require__(1);
             if (mutation.type == 'childList') {
               mutation.addedNodes.forEach( function( node ){
                 if( this.checkNodeChange ) {
-                  if( $ai( node ).is( this.watchNodeSelector ) ) {
-                    this.callIfApply( 'add', node );
-                  }
+                  let matchNodeList = $ai( node ).containsOrSelfMatches( this.watchNodeSelector )
+                  var  that = this;
+                  matchNodeList.forEach( function( _node ){
+                    this.callIfApply( 'add', _node );
+                  }.bind(this));
                 }
                 console.log('A child node has been added or removed.');
               }.bind(this));

@@ -5,6 +5,9 @@
     jQuery("#test").append("<div class='item' > item " + count + " </div>");
   };
 
+  var testItem2 = function() {
+    jQuery("#test .subclass").append("<div class='item' > item " + count + " </div>");
+  };
   
 
 
@@ -19,7 +22,7 @@
 
     QUnit.test("Example Test Category", function(assert){
       assert.expect( 4 );
-      var done = assert.async(3);
+      var done = assert.async(5);
       var update = () => {
           count++;
           var el = jQuery("#result").get(0);
@@ -49,7 +52,8 @@
       NodeObserver.observe(jQuery( "#test" ).get(0), ".item", null, callback );
       NodeObserver.onLoad("#test", ".item", callback2, false );
       NodeObserver.onLoad("#test", ".item", callback3, true );
-      testItem()
+      testItem2();
+
     });
   };
   testAll();

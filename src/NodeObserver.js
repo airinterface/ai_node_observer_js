@@ -134,8 +134,7 @@
         _config['removedCallback']   = ( removedCallback  || null );
         
         /* create request key that caller can refer to */
-        var requestKey = this.createRequestKey( parentSelector, selector );
-        var nameSpace = this.getNameSpace( parentSelector, selector );
+        var requestKey = this.createRequestKey( parentId, selector );
 
         elms.forEach( function( el ) {
           let observer = this.createObserver( requestKey, el, selector, _config, context);

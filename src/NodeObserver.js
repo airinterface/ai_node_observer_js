@@ -124,16 +124,17 @@
       observerRequestHeader: "ai_observer_",
       requestReference: {},
       observe: function( parentSelector, selector, config, addedCallback, changedCallback, removedCallback, context ) {
-        var _config   =  ( config || {} );
-        var elms      = $ai( parentSelector ).get();
-        var res       = null;
+        var _config     =  ( config || {} );
+        var elms        = $ai( parentSelector ).get();
+        var res         = null;
+        var parentId    = this.getParentNamespace( parentSelector );
         _config['watchNodeSelector'] = selector;
         _config['addedCallback']     = ( addedCallback  || null );
         _config['changedCallback']   = ( changedCallback  || null );
         _config['removedCallback']   = ( removedCallback  || null );
+        
         /* create request key that caller can refer to */
         var requestKey = this.createRequestKey( parentSelector, selector );
-
         var nameSpace = this.getNameSpace( parentSelector, selector );
 
         elms.forEach( function( el ) {
@@ -195,6 +196,11 @@
         }
         this.requestReference[tmpKey].push( requestKey );
         return tmpKey;
+      },
+
+      getParentNamespace : function( parentSelectorOrNode ){
+        var res = ( typeof parentSelector === 'string') ? parentId : this.uniqueId( '_observer_parent_' );
+        return res;
       },
 
       unmarkNode: function( node, requestKey ){

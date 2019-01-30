@@ -46,7 +46,7 @@
           done();
         };
 
-      NodeObserver.observe("#test", ".item", null, callback );
+      NodeObserver.observe(jQuery( "#test" ).get(0), ".item", null, callback );
       NodeObserver.onLoad("#test", ".item", callback2, false );
       NodeObserver.onLoad("#test", ".item", callback3, true );
       testItem()

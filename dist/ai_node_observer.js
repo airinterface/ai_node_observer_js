@@ -236,11 +236,10 @@ module.exports = __webpack_require__(1);
 
         var nameSpace = this.getNameSpace( parentSelector, selector );
 
-        for( var i in elms ) {
-          let el = elms[i];
+        elms.forEach( function( el ) {
           let observer = this.createObserver( requestKey, el, selector, _config, context);
           observer.start();
-        }
+        }.bind(this));
 
         res = new  ObserverMonitor( requestKey );
         return res;

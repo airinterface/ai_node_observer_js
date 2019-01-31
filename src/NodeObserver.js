@@ -86,7 +86,7 @@
       handleNodeChange: function( mutationList, observer ){
         for(var mutation of mutationList) {
             if ( mutation.type == 'childList' && 
-                 mutation.addedNodes.length >= 0 && 
+                 mutation.addedNodes.length > 0 && 
                  this.checkNodeChange ) {
               let nodeList = this.rootNode.querySelectorAll( $parseSelector( this.watchNodeSelector ) );
               nodeList.forEach( function( node ){

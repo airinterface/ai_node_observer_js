@@ -122,6 +122,7 @@ module.exports = __webpack_require__(1);
         },
       listenToAttributeChange: false,
       watchNodeSelector: null,
+      typeAdded        : "addedChecked",
       observerConfigKey: "observerConfig",
       requestKey: null, 
       parentId: null, 
@@ -184,14 +185,14 @@ module.exports = __webpack_require__(1);
 
       handleNodeChange: function( mutationList, observer ){
         for(var mutation of mutationList) {
-            if (mutation.type == 'childList') {
-              mutation.addedNodes.forEach( function( node ){
-                if( this.checkNodeChange ) {
-                  let matchNodeList = $ai( node ).containsOrSelfMatches( this.watchNodeSelector )
-                  var  that = this;
-                  matchNodeList.forEach( function( _node ){
-                    this.callIfApply( 'add', _node );
-                  }.bind(this));
+            if ( mutation.type == 'childList' && 
+                 mutation.addedNodes.length >= 0 && 
+                 this.checkNodeChange ) {
+              let nodeList = this.rootNode.querySelectorAll( this.watchNodeSelector );
+              nodeList.forEach( function( node ){
+                if( !this.isChecked( node, this.typeAdded ) ){
+                  this.checkNode( node, this.typeAdded );
+                  this.callIfApply( 'add', node );
                 }
                 console.log('A child node has been added or removed.');
               }.bind(this));
@@ -200,6 +201,14 @@ module.exports = __webpack_require__(1);
                 console.log('The ' + mutation.attributeName + ' attribute was modified.');
             }
         }
+      },
+
+      isChecked : function( node, type ) {
+        return ( !!node[type] && !!( node[ type ] = {} )[ this.requestKey ] );
+      },
+
+      checkNode: function( node, type ) {
+        ( node[ type ] = {} )[ this.requestKey ] = true;
       },
       callIfApply: function( updateType, node ){
         var _callback = null;

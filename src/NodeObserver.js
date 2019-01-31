@@ -22,6 +22,7 @@
         },
       listenToAttributeChange: false,
       watchNodeSelector: null,
+      typeAdded        : "addedChecked",
       observerConfigKey: "observerConfig",
       requestKey: null, 
       parentId: null, 
@@ -84,12 +85,14 @@
 
       handleNodeChange: function( mutationList, observer ){
         for(var mutation of mutationList) {
-            if (mutation.type == 'childList') {
-              mutation.addedNodes.forEach( function( node ){
-                if( this.checkNodeChange ) {
-                  if( $ai( node ).is( this.watchNodeSelector ) ) {
-                    this.callIfApply( 'add', node );
-                  }
+            if ( mutation.type == 'childList' && 
+                 mutation.addedNodes.length >= 0 && 
+                 this.checkNodeChange ) {
+              let nodeList = this.rootNode.querySelectorAll( this.watchNodeSelector );
+              nodeList.forEach( function( node ){
+                if( !this.isChecked( node, this.typeAdded ) ){
+                  this.checkNode( node, this.typeAdded );
+                  this.callIfApply( 'add', node );
                 }
                 console.log('A child node has been added or removed.');
               }.bind(this));
@@ -98,6 +101,14 @@
                 console.log('The ' + mutation.attributeName + ' attribute was modified.');
             }
         }
+      },
+
+      isChecked : function( node, type ) {
+        return ( !!node[type] && !!( node[ type ] = {} )[ this.requestKey ] );
+      },
+
+      checkNode: function( node, type ) {
+        ( node[ type ] = {} )[ this.requestKey ] = true;
       },
       callIfApply: function( updateType, node ){
         var _callback = null;

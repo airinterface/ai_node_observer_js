@@ -22,7 +22,7 @@
 
     QUnit.test("Example Test Category", function(assert){
       assert.expect( 4 );
-      var done = assert.async(5);
+      var done = assert.async(3);
       var update = () => {
           count++;
           var el = jQuery("#result").get(0);

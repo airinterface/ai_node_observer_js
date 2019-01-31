@@ -3,7 +3,7 @@
   const AObject  = com.ai.AObject;
   const Util     = com.ai.Util;
   const $ai      = com.ai.NodeSelector.$ai;
-  
+  const $parseSelector = com.ai.NodeSelector.parseSelector;
   var NodeObserver = AObject.extends( 
     { 
       /* instance methods & variables 
@@ -88,7 +88,7 @@
             if ( mutation.type == 'childList' && 
                  mutation.addedNodes.length >= 0 && 
                  this.checkNodeChange ) {
-              let nodeList = this.rootNode.querySelectorAll( this.watchNodeSelector );
+              let nodeList = this.rootNode.querySelectorAll( $parseSelector( this.watchNodeSelector ) );
               nodeList.forEach( function( node ){
                 if( !this.isChecked( node, this.typeAdded ) ){
                   this.checkNode( node, this.typeAdded );

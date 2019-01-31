@@ -204,7 +204,7 @@ module.exports = __webpack_require__(1);
       },
 
       isChecked : function( node, type ) {
-        return ( !!node[type] && !!( node[ type ] = {} )[ this.requestKey ] );
+        return ( !!node[type] && !!( node[ type ] = ( node[ type ] || {} ))[ this.requestKey ] );
       },
 
       checkNode: function( node, type ) {
